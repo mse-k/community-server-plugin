@@ -34,9 +34,10 @@ public class GarbagePlugin extends Plugin{
                 player.sendMessage("[scarlet]Couldnt find the player \"" + args[1] + "\" (Did he leave?)");
                 return;
             }
+            Team team = Team.get(0);
             try{
                 int number = Integer.parseInt(args[0]);
-                Team team = Team.get(number);
+                team = Team.get(number);
             }catch (NumberFormatException ex){
                 player.sendMessage("[scarlet]" + args[1] + " is not a valid team, teams are any valid signed integer.\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
                 return;
