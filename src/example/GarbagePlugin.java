@@ -27,8 +27,8 @@ public class GarbagePlugin extends Plugin{
         
         handler.<Player>register("team", "<team> [player]", "Sets the team of yourself or another player.", (args, player) -> {
             Player other = player;
-            if(args.size() == 2){
-                Player other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(args[1]));
+            if(args.length == 2){
+                other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(args[1]));
             }
             if(other == null){
                 player.sendMessage("[scarlet]Couldnt find the player \"" + args[1] + "\" (Did he leave?)");
