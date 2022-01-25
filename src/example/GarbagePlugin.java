@@ -16,9 +16,9 @@ public class GarbagePlugin extends Plugin{
     public void registerClientCommands(CommandHandler handler){
         
         handler.<Player>register("msg", "<player> <text...>", "Send a message only to another player.", (args, player) -> {
-            Player other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(args[0]));=
+            Player other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(args[0]));
             if(other == null){
-                player.sendMessage("[scarlet]Couldnt find the player \"" + args[0] "\" (Did he leave?)");
+                player.sendMessage("[scarlet]Couldnt find the player \"" + args[0] + "\" (Did he leave?)");
                 return;
             }
             player.sendMessage("[scarlet]<[yellow]You[] -> [teal]" + other.coloredName + "[scarlet]> [lightgrey]" + args[1]);
@@ -31,7 +31,7 @@ public class GarbagePlugin extends Plugin{
                 Player other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(args[1]));
             }
             if(other == null){
-                player.sendMessage("[scarlet]Couldnt find the player \"" + args[1] "\" (Did he leave?)");
+                player.sendMessage("[scarlet]Couldnt find the player \"" + args[1] + "\" (Did he leave?)");
                 return;
             }
             try{
