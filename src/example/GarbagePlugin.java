@@ -41,6 +41,7 @@ public class GarbagePlugin extends Plugin{
                 player.sendMessage("[scarlet]" + args[1] + " is not a valid team, teams are any valid signed integer.\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
                 return;
             }
+            other.team(team)
             if(other==player){
                 player.sendMessage("[lightgrey]Set your team to team" + args[0]);
                 return;
