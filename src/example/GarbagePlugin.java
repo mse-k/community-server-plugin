@@ -21,8 +21,8 @@ public class GarbagePlugin extends Plugin{
                 player.sendMessage("[scarlet]Couldnt find the player \"" + args[0] + "\" (Did he leave?)");
                 return;
             }
-            player.sendMessage("[scarlet]<[yellow]You[] -> [teal]" + other.name + "[scarlet]> [lightgrey]" + args[1]);
-            other.sendMessage("[scarlet]<[teal]" + player.name + "[scarlet] -> [yellow]You[]> [lightgrey]" + args[1]);
+            player.sendMessage("[red]<[yellow]You[] -> [cyan]" + Strings.stripColors(other.name) + "[red]> [lightgrey]" + args[1]);
+            other.sendMessage("[red]<[cyan]" + Strings.stripColors(player.name) + "[red] -> [yellow]You[]> [lightgrey]" + args[1]);
         });
         
         handler.<Player>register("team", "<team> [player]", "Sets the team of yourself or another player.", (args, player) -> {
@@ -44,10 +44,10 @@ public class GarbagePlugin extends Plugin{
             }
             other.team(team);
             if(other==player){
-                player.sendMessage("[lightgrey]Set your team to team" + args[0]);
+                player.sendMessage("[lightgrey]Set your team to team " + args[0]);
                 return;
             }
-            player.sendMessage("[lightgrey]Set " + other.name + "[lightgrey]'s team to team" + args[0]);
+            player.sendMessage("[lightgrey]Set " + other.name + "[lightgrey]'s team to team " + args[0]);
             other.sendMessage("[lightgrey]Your team was set to " + args[0] + " by " + player.name + "[lightgrey].");
         });
     }
