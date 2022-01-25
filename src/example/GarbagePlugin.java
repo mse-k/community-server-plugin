@@ -36,7 +36,7 @@ public class GarbagePlugin extends Plugin{
             }
             try{
                 int number = Integer.parseInt(args[0]);
-                Team team = Team.get(number)
+                Team team = Team.get(number);
             }catch (NumberFormatException ex){
                 player.sendMessage("[scarlet]" + args[1] + " is not a valid team, teams are any valid signed integer.\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
                 return;
@@ -46,7 +46,7 @@ public class GarbagePlugin extends Plugin{
                 return;
             }
             player.sendMessage("[lightgrey]Set " + other.coloredName + "[lightgrey]'s team to team" + args[0]);
-            other.sendMessage("[lightgrey]Your team was set to " + args[0] + " by " + player.coloredName + "[lightgrey].";
+            other.sendMessage("[lightgrey]Your team was set to " + args[0] + " by " + player.coloredName + "[lightgrey].");
         });
     }
 }
