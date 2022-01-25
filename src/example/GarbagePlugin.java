@@ -9,6 +9,8 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.net.Administration.*;
+import mindustry.entities.comp.*
+import mindustry.entities.comp.PlayerComp.*
 
 public class GarbagePlugin extends Plugin{
     //register commands that player can invoke in-game
