@@ -9,7 +9,7 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.net.Administration.*;
-import mindustry.entities.*
+import mindustry.entities.*;
 
 public class GarbagePlugin extends Plugin{
     //register commands that player can invoke in-game
@@ -65,14 +65,14 @@ public class GarbagePlugin extends Plugin{
                 Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
                 for(Unit u:Groups.unit){
                     if(u.team == team){
-                        Units.unitDespawn(u)
+                        Units.unitDespawn(u);
                     }
                 }
                 return;
             }
             Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
             for(Unit u:Groups.unit){
-                Units.unitDespawn(u)
+                Units.unitDespawn(u);
             }
         });
     }
