@@ -65,7 +65,7 @@ public class GarbagePlugin extends Plugin{
                 Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
                 for(Unit u:Groups.unit){
                     if(u.team == team && !spawnedByCore){
-                        Units.unitDespawn(u);
+                        Call.unitDespawn(u);
                     }
                 }
                 return;
@@ -73,7 +73,7 @@ public class GarbagePlugin extends Plugin{
             Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
             for(Unit u:Groups.unit){
                 if(!spawnedByCore){
-                    Call.unitDespawn(self());
+                    Call.unitDespawn(u);
                 }
             }
         });
