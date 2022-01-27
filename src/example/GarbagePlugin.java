@@ -95,8 +95,7 @@ public class GarbagePlugin extends Plugin{
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
                 for(Building b:Groups.build){
-                    if(b.team == team && (!b instanceof CoreBlock || cores)){
-                        Fx.upgradeCore.at(b.tile, b.size);
+                    if(b.team == team && (!(b instanceof CoreBlock) || cores)){
                         b.tile.setNet(Blocks.air);
                     }
                 }
@@ -104,8 +103,7 @@ public class GarbagePlugin extends Plugin{
             }
             Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
             for(Building b:Groups.build){
-                if(!b instanceof CoreBlock){
-                    Fx.upgradeCore.at(b.tile, b.size);
+                if(!(b instanceof CoreBlock)){
                     b.tile.setNet(Blocks.air);
                 }
             }
