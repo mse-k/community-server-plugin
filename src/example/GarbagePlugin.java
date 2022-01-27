@@ -62,13 +62,6 @@ public class GarbagePlugin extends Plugin{
         });
         
         handler.<Player>register("setteam", "<team> [player]", "Alt of /team for foos client users until its fixed", (args, player) -> {
-            Player other = HandlePlayerArg(args[0], player);
-            if (other == null) return;
-            player.sendMessage("[red]<[yellow]You[] -> [cyan]" + Strings.stripColors(other.name) + "[red]> [lightgrey]" + args[1]);
-            other.sendMessage("[red]<[cyan]" + Strings.stripColors(player.name) + "[red] -> [yellow]You[]> [lightgrey]" + args[1]);
-        });
-        
-        handler.<Player>register("team", "<team> [player]", "Sets the team of yourself or another player.", (args, player) -> {
             Player other = player;
             if(args.length == 2){
                 other = HandlePlayerArg(args[1], player);
@@ -90,7 +83,7 @@ public class GarbagePlugin extends Plugin{
                 Team team = HandleTeamArg(args[0], player);
                 if (team == null) return;
                 Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
-                SeqIterator iter = Groups.unit.iterator();
+                var iter = Groups.unit.iterator();
                 for(Unit u; iter.hasNext(); u = iter.next()) {
                     if(u.team == team && !u.spawnedByCore){
                         Call.unitDespawn(u);
@@ -99,7 +92,7 @@ public class GarbagePlugin extends Plugin{
                 return;
             }
             Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
-            SeqIterator iter = Groups.unit.iterator();
+            var iter = Groups.unit.iterator();
             for(Unit u; iter.hasNext(); u = iter.next()) {
                 if(!u.spawnedByCore){
                     Call.unitDespawn(u);
@@ -120,7 +113,7 @@ public class GarbagePlugin extends Plugin{
                     return;
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
-                SeqIterator iter = Groups.build.iterator();
+                var iter = Groups.build.iterator();
                 for(Building b; iter.hasNext(); b = iter.next()) {
                     if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
                         b.tile.setNet(Blocks.air);
@@ -129,7 +122,7 @@ public class GarbagePlugin extends Plugin{
                 return;
             }
             Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
-            SeqIterator iter = Groups.build.iterator();
+            var iter = Groups.build.iterator();
             for(Building b; iter.hasNext(); b = iter.next()) {
                 if(!(b.block instanceof CoreBlock)){
                     b.tile.setNet(Blocks.air);
@@ -139,7 +132,7 @@ public class GarbagePlugin extends Plugin{
         
         handler.<Player>register("gameover", "Instantly triggers a game over. Cores are not killed.", (args, player) -> {
             Call.sendMessage(player.name + " has caused a game over.");
-            Events.fire(EventType$GameOverEvent(Team.get(0)));
+            Events.fire(EventType.GameOverEvent(Team.get(0)));
         });
         
         handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> {
