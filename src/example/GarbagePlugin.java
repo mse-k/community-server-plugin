@@ -77,5 +77,35 @@ public class GarbagePlugin extends Plugin{
                 }
             }
         });
+        
+        handler.<Player>register("wipe", "[team] [cores]", "Removes all buildings, optionally of just one team. Can remove cores and units of a team too.", (args, player) -> {
+            if(args.length == 1) {
+                Team team = Team.get(0);
+                try{
+                    int number = Integer.parseInt(args[0]);
+                    team = Team.get(number);
+                }catch (NumberFormatException ex){
+                    player.sendMessage("[scarlet]" + args[0] + " is not a valid team, teams are any valid signed integer.\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
+                    return;
+                }
+                Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
+                for(Unit u:Groups.unit){
+                    if(u.team == team && !u.spawnedByCore){
+                        Call.unitDespawn(u);
+                    }
+                }
+                return;
+            }
+            Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
+            for(Unit u:Groups.unit){
+                if(!u.spawnedByCore){
+                    Call.unitDespawn(u);
+                }
+            }
+        });
+        
+        handler.<Player>register("changelog", "Checks changelog of the plugin", (args, player) -> {
+            player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n[][]\n\n[lightgrey][stat]v1.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team>\n\n[stat]v1.0.1[]\nMade");
+        });
     }
 }
