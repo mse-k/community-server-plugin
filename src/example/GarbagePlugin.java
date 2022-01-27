@@ -12,9 +12,9 @@ import mindustry.net.Administration.*;
 import mindustry.entities.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.*;
-import arc.structs.*;
-import arc.structs.Seq.*;
-import arc.structs.Seq.SeqIterable.*; //one of these gotta work
+import arc.struct.*;
+import arc.struct.Seq.*;
+import arc.struct.Seq.SeqIterable.*; //one of these gotta work
 
 public class GarbagePlugin extends Plugin{
     private Team HandleTeamArg(String arg, Player player){
