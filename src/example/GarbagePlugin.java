@@ -14,11 +14,6 @@ import mindustry.world.blocks.storage.*;
 import mindustry.world.*;
 import arc.struct.*;
 import arc.struct.Seq.*;
-import arc.struct.Seq.SeqIterable.*;
-import arc.struct.Seq.SeqIterable.SeqIterator.*;
-import arc.struct.Seq.SeqIterator.*; //one of these gotta work //nope
-import mindustry.game.EventType.*;
-import mindustry.game.EventType.GameOverEvent.*;
 
 public class GarbagePlugin extends Plugin{
     private Team HandleTeamArg(String arg, Player player){
@@ -144,7 +139,7 @@ public class GarbagePlugin extends Plugin{
         
         handler.<Player>register("gameover", "Instantly triggers a game over. Cores are not killed.", (args, player) -> {
             Call.sendMessage(player.name + " has caused a game over.");
-            Events.fire(GameOverEvent(Team.get(0)));
+            Events.fire(EventType.GameOverEvent(Team.get(0)));
         });
         
         handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> {
