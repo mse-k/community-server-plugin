@@ -15,7 +15,8 @@ import mindustry.world.*;
 import arc.struct.*;
 import arc.struct.Seq.*;
 import arc.struct.Seq.SeqIterable.*;
-import arc.struct.Seq.SeqIterable.SeqIterator.*; //one of these gotta work //nope
+import arc.struct.Seq.SeqIterable.SeqIterator.*;
+import arc.struct.Seq.SeqIterator.*; //one of these gotta work //nope
 import mindustry.game.EventType.*;
 import mindustry.game.EventType.GameOverEvent.*;
 
