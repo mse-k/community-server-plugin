@@ -81,7 +81,7 @@ public class GarbagePlugin extends Plugin{
         });
         
         handler.<Player>register("killall", "[team]", "Kills all units, optionally of just one team.", (args, player) -> {
-            EntityGroups unitsToKill = Groups.unit.clone();
+            EntityGroup unitsToKill = Groups.unit;
             if(args.length == 1) {
                 Team team = Team.get(0);
                 try{
@@ -108,7 +108,7 @@ public class GarbagePlugin extends Plugin{
         });
         
         handler.<Player>register("wipe", "[team] [cores]", "Removes all buildings, optionally of just one team. Can remove cores of a team too.", (args, player) -> {
-            EntityGroups buildsToKill = Groups.build.clone();
+            EntityGroup buildsToKill = Groups.build;
             if(args.length > 0) {
                 boolean cores = false;
                 if(args.length == 2){
