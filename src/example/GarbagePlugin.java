@@ -95,16 +95,16 @@ public class GarbagePlugin extends Plugin{
                     return;
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
-                for(Block b:Groups.build){
-                    if(b.team == team && (!(b instanceof CoreBlock) || cores)){
+                for(Building b:Groups.build){
+                    if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
                         b.tile.setNet(Blocks.air);
                     }
                 }
                 return;
             }
             Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
-            for(Block b:Groups.build){
-                if(!(b instanceof CoreBlock)){
+            for(Building b:Groups.build){
+                if(!(b.block instanceof CoreBlock)){
                     b.tile.setNet(Blocks.air);
                 }
             }
