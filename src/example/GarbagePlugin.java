@@ -78,8 +78,12 @@ public class GarbagePlugin extends Plugin{
             }
         });
         
-        handler.<Player>register("wipe", "[team] [cores]", "Removes all buildings, optionally of just one team. Can remove cores and units of a team too.", (args, player) -> {
-            if(args.length == 1) {
+        handler.<Player>register("wipe", "[team] [cores]", "Removes all buildings, optionally of just one team. Can remove cores of a team too.", (args, player) -> {
+            if(args.length > 0) {
+                boolean cores = false;
+                if(args.length == 2){
+                    cores = args[1].equalsIgnoreCase("y") || args[1].equalsIgnoreCase("yes");
+                }
                 Team team = Team.get(0);
                 try{
                     int number = Integer.parseInt(args[0]);
@@ -88,24 +92,29 @@ public class GarbagePlugin extends Plugin{
                     player.sendMessage("[scarlet]" + args[0] + " is not a valid team, teams are any valid signed integer.\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
                     return;
                 }
-                Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
-                for(Unit u:Groups.unit){
-                    if(u.team == team && !u.spawnedByCore){
-                        Call.unitDespawn(u);
+                Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
+                for(Build b:Groups.build){
+                    if(b.team == team && (!b instanceof CoreBuild || cores)){
+                        Fx.upgradeCore.at(b.tile, b.size);
+                        b.tile.setNet(Blocks.air);
                     }
                 }
                 return;
             }
-            Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
-            for(Unit u:Groups.unit){
-                if(!u.spawnedByCore){
-                    Call.unitDespawn(u);
+            Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
+            for(Build b:Groups.build){
+                if(!b instanceof CoreBuild){
+                    Fx.upgradeCore.at(b.tile, b.size);
+                    b.tile.setNet(Blocks.air);
                 }
             }
         });
         
-        handler.<Player>register("changelog", "Checks changelog of the plugin", (args, player) -> {
-            player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n[][]\n\n[lightgrey][stat]v1.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team>\n\n[stat]v1.0.1[]\nMade");
+        handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> {
+            player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n[][]\n\n[lightgrey]" +
+"[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team>\n\n" +
+"[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
+"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog");
         });
     }
 }
