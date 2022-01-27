@@ -14,7 +14,7 @@ import mindustry.world.blocks.storage.*;
 import mindustry.world.*;
 
 public class GarbagePlugin extends Plugin{
-    private Team HandleTeamArg(string arg){
+    private Team HandleTeamArg(String arg){
         try{
             int number = Integer.parseInt(arg);
             team = Team.get(number);
@@ -25,7 +25,7 @@ public class GarbagePlugin extends Plugin{
             return null;
         }
     }
-    private Player HandlePlayerArg(string arg){
+    private Player HandlePlayerArg(String arg){
         Player other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(arg));
         if(other == null){
             player.sendMessage("[scarlet]Couldnt find the player \"" + arg + "\" (Did he leave?)");
