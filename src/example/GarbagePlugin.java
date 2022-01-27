@@ -10,6 +10,7 @@ import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.net.Administration.*;
 import mindustry.entities.*;
+import mindustry.world.blocks.storage.*;
 
 public class GarbagePlugin extends Plugin{
     //register commands that player can invoke in-game
