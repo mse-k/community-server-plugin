@@ -139,7 +139,7 @@ public class GarbagePlugin extends Plugin{
         
         handler.<Player>register("gameover", "Instantly triggers a game over. Cores are not killed.", (args, player) -> {
             Call.sendMessage(player.name + " has caused a game over.");
-            Events.fire(EventType.GameOverEvent(Team.get(0)));
+            Events.fire(EventType$GameOverEvent(Team.get(0)));
         });
         
         handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> {
