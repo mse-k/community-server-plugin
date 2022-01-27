@@ -81,6 +81,7 @@ public class GarbagePlugin extends Plugin{
         });
         
         handler.<Player>register("killall", "[team]", "Kills all units, optionally of just one team.", (args, player) -> {
+            EntityGroups unitsToKill = Groups.unit.clone();
             if(args.length == 1) {
                 Team team = Team.get(0);
                 try{
@@ -91,22 +92,23 @@ public class GarbagePlugin extends Plugin{
                     return;
                 }
                 Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
-                Groups.unit.each((Unit u) -> {
+                for(Unit u:unitsToKill){
                     if(u.team == team && !u.spawnedByCore){
                         Call.unitDespawn(u);
                     }
-                });
+                };
                 return;
             }
             Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
-            Groups.unit.each((Unit u) -> {
+            for(Unit u:unitsToKill){
                 if(!u.spawnedByCore){
                     Call.unitDespawn(u);
                 }
-            });
+            };
         });
         
         handler.<Player>register("wipe", "[team] [cores]", "Removes all buildings, optionally of just one team. Can remove cores of a team too.", (args, player) -> {
+            EntityGroups buildsToKill = Groups.build.clone();
             if(args.length > 0) {
                 boolean cores = false;
                 if(args.length == 2){
@@ -125,27 +127,27 @@ public class GarbagePlugin extends Plugin{
                     return;
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
-                Groups.build.each((Building b) -> {
+                for(Building b:buildsToKill){
                     if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
                         b.tile.setNet(Blocks.air);
                     }
-                });
+                }
                 return;
             }
             Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
-            Groups.build.each((Building b) -> {
+            for(Building b:buildsToKill){
                 if(!(b.block instanceof CoreBlock)){
                     b.tile.setNet(Blocks.air);
                 }
-            });
+            }
         });
         
         handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> {
-            player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n[][]\n\n[lightgrey]" +
-"[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team>\n\n" +
+            player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n\n[][][lightgrey]" +
+"[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team> [player]\n\n" +
 "[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
 "[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
-"[stat]v1.0.3[]\nAdded commands:\n/setteam <team>\nBug fixes:\nFixed /killall and /wipe not removing all buildings/units. /wipe still can not remove walls\nRemoved the ability to wipe team sharded with cores enabled");
+"[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\nBug fixes:\nFixed /killall and /wipe not removing all buildings/units. /wipe still can not remove walls\nRemoved the ability to wipe team sharded with cores enabled");
         });
     }
 }
