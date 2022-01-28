@@ -14,6 +14,8 @@ import mindustry.world.blocks.storage.*;
 import mindustry.world.*;
 import arc.struct.*;
 import arc.struct.Seq.*;
+import arc.func.*;
+import arc.math.geom.*;
 
 public class GarbagePlugin extends Plugin{
     private Team HandleTeamArg(String arg, Player player){
