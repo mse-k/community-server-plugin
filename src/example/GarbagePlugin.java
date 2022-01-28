@@ -33,6 +33,7 @@ public class GarbagePlugin extends Plugin{
             player.sendMessage("[scarlet]Couldnt find the player \"" + arg + "\" (Did he leave?)");
             return null;
         }
+        return other;
     }
     //register commands that player can invoke in-game
     @Override
