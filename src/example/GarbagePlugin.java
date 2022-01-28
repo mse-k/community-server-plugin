@@ -86,6 +86,7 @@ public class GarbagePlugin extends Plugin{
                 Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
                 Iterator<Unit> iter = Groups.unit.iterator();
                 for(Unit u; iter.hasNext(); u = iter.next()) {
+                    u = iter.next();
                     if(u.team == team && !u.spawnedByCore){
                         Call.unitDespawn(u);
                     }
@@ -95,6 +96,7 @@ public class GarbagePlugin extends Plugin{
             Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
             Iterator<Unit> iter = Groups.unit.iterator();
             for(Unit u; iter.hasNext(); u = iter.next()) {
+                u = iter.next();
                 if(!u.spawnedByCore){
                     Call.unitDespawn(u);
                 }
@@ -115,7 +117,8 @@ public class GarbagePlugin extends Plugin{
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
                 Iterator<Building> iter = Groups.build.iterator();
-                for(Building b; iter.hasNext(); b = iter.next()) {
+                for(Building b; iter.hasNext();) {
+                    b = iter.next();
                     if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
                         b.tile.setNet(Blocks.air);
                     }
@@ -124,7 +127,8 @@ public class GarbagePlugin extends Plugin{
             }
             Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
             Iterator<Building> iter = Groups.build.iterator();
-            for(Building b; iter.hasNext(); b = iter.next()) {
+            for(Building b; iter.hasNext();) {
+                b = iter.next();
                 if(!(b.block instanceof CoreBlock)){
                     b.tile.setNet(Blocks.air);
                 }
