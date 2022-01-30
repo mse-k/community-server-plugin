@@ -56,7 +56,7 @@ public class GarbagePlugin extends Plugin{
     private void KillAllBuilds(){
         Groups.build.each(b -> {
             if(!(b.block instanceof CoreBlock)){
-                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air)});
+                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air);});
             }
         });
     }
@@ -70,7 +70,7 @@ public class GarbagePlugin extends Plugin{
         }
         builds.each(b -> {
             if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
-                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air)});
+                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air);});
             }
         });
     }
