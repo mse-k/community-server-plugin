@@ -40,25 +40,25 @@ public class GarbagePlugin extends Plugin{
     }
     //stuff that does stuff
     private void KillAllUnits(){
-        Groups.unit.each(u -> Time.run(Mathf.random(0f, 5f), () -> {
+        Groups.unit.each(u -> {
             if(!u.spawnedByCore){
-                Call.unitDespawn(u);
+                Time.run(Mathf.random(0f, 5f), () -> {Call.unitDespawn(u);});
             }
-        }));
+        });
     }
     private void KillAllUnits(Team team){
-        team.data().units.each(u -> Time.run(Mathf.random(0f, 5f), () -> {
+        team.data().units.each(u -> {
             if(!u.spawnedByCore){
-                Call.unitDespawn(u);
+                Time.run(Mathf.random(0f, 5f), () -> {Call.unitDespawn(u);});
             }
-        }));
+        });
     }
     private void KillAllBuilds(){
-        Groups.build.each(b -> Time.run(Mathf.random(0f, 5f), () -> {
+        Groups.build.each(b -> {
             if(!(b.block instanceof CoreBlock)){
-                b.tile.setNet(Blocks.air);
+                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air)});
             }
-        }));
+        });
     }
     private void KillAllBuilds(Team team){
         KillAllBuilds(team, false);
@@ -68,11 +68,11 @@ public class GarbagePlugin extends Plugin{
         if(team.data().buildings != null){
             team.data().buildings.getObjects(builds);
         }
-        builds.each(b -> Time.run(Mathf.random(0f, 5f), () -> {
+        builds.each(b -> {
             if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
-                b.tile.setNet(Blocks.air);
+                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air)});
             }
-        }));
+        });
     }
     
     //register commands that player can invoke in-game
