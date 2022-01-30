@@ -16,6 +16,7 @@ import arc.struct.*;
 import java.util.*;
 
 public class GarbagePlugin extends Plugin{
+    //argument handling, might improve later but for now: player args with special characters means get fucked, team args cant use team names
     private Team HandleTeamArg(String arg, Player player){
         try{
             int number = Integer.parseInt(arg);
@@ -35,6 +36,43 @@ public class GarbagePlugin extends Plugin{
         }
         return other;
     }
+    //stuff that does stuff
+    private void KillAllUnits(){
+        Groups.unit.each(Unit u -> Time.run(Mathf.random(0f, 5f), () -> {
+            if(!u.spawnedByCore){
+                Call.unitDespawn(u);
+            }
+        }));
+    }
+    private void KillAllUnits(Team team){
+        team.data().units.each(Unit u -> Time.run(Mathf.random(0f, 5f), () -> {
+            if(!(b.block instanceof CoreBlock)){
+                b.tile.setNet(Blocks.air);
+            }
+        }));
+    }
+    private void KillAllBuilds(){
+        Groups.build.each(Building b -> Time.run(Mathf.random(0f, 5f), () -> {
+            if(!u.spawnedByCore){
+                Call.unitDespawn(u);
+            }
+        }));
+    }
+    private void KillAllBuilds(Team team){
+        this(team, false);
+    }
+    private void KillAllBuilds(Team team, boolean cores){
+        Seq<Building> builds = new Seq<Building>();
+        if(buildings != null){
+            buildings.getObjects(builds);
+        }
+        builds.each(Building b -> Time.run(Mathf.random(0f, 5f), () -> {
+            if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
+                b.tile.setNet(Blocks.air);
+            }
+        }));
+    }
+    
     //register commands that player can invoke in-game
     @Override
     public void registerClientCommands(CommandHandler handler){
@@ -84,23 +122,11 @@ public class GarbagePlugin extends Plugin{
                 Team team = HandleTeamArg(args[0], player);
                 if (team == null) return;
                 Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
-                Iterator<Unit> iter = Groups.unit.iterator();
-                for(Unit u; iter.hasNext(); u = iter.next()) {
-                    u = iter.next();
-                    if(u.team == team && !u.spawnedByCore){
-                        Call.unitDespawn(u);
-                    }
-                };
+                KillAllUnits(team);
                 return;
             }
             Call.sendMessage("[lightgrey]All units have been killed by " + player.name + "[lightgrey].");
-            Iterator<Unit> iter = Groups.unit.iterator();
-            for(Unit u; iter.hasNext(); u = iter.next()) {
-                u = iter.next();
-                if(!u.spawnedByCore){
-                    Call.unitDespawn(u);
-                }
-            };
+            KillAllUnits();
         });
         
         handler.<Player>register("wipe", "[team] [cores]", "Removes all buildings, optionally of just one team. Can remove cores of a team too.", (args, player) -> {
@@ -116,23 +142,11 @@ public class GarbagePlugin extends Plugin{
                     return;
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
-                Iterator<Building> iter = Groups.build.iterator();
-                for(Building b; iter.hasNext();) {
-                    b = iter.next();
-                    if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
-                        b.tile.setNet(Blocks.air);
-                    }
-                }
+                KillAllBuilds(team, cores);
                 return;
             }
             Call.sendMessage("[lightgrey]All builds have been wiped by " + player.name + "[lightgrey].");
-            Iterator<Building> iter = Groups.build.iterator();
-            for(Building b; iter.hasNext();) {
-                b = iter.next();
-                if(!(b.block instanceof CoreBlock)){
-                    b.tile.setNet(Blocks.air);
-                }
-            }
+            KillAllBuilds();
         });
         
         handler.<Player>register("gameover", "Instantly triggers a game over. Cores are not killed.", (args, player) -> {
