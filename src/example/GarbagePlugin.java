@@ -3,6 +3,7 @@ package garbo;
 import arc.*;
 import arc.util.*;
 import arc.math.*;
+import arc.math.geom.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.game.*;
@@ -64,8 +65,8 @@ public class GarbagePlugin extends Plugin{
     }
     private void KillAllBuilds(Team team, boolean cores){
         Seq<Building> builds = new Seq<Building>();
-        if(buildings != null){
-            buildings.getObjects(builds);
+        if(team.data().buildings != null){
+            team.data().buildings.getObjects(builds);
         }
         builds.each(b -> Time.run(Mathf.random(0f, 5f), () -> {
             if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
