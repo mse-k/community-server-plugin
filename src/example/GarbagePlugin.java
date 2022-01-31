@@ -3,27 +3,20 @@ package garbo;
 import arc.*;
 import arc.util.*;
 import arc.math.*;
-import arc.math.geom.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
-import mindustry.net.Administration.*;
-import mindustry.entities.*;
 import mindustry.world.blocks.storage.*;
-import mindustry.world.*;
 import arc.struct.*;
-import java.util.*;
 
 public class GarbagePlugin extends Plugin{
-    //argument handling, might improve later but for now: player args with special characters means get fucked, team args cant use team names
+    //argument handling, need to allow team names for team arg handler later
     private Team HandleTeamArg(String arg, Player player){
         try{
             int number = Integer.parseInt(arg);
-            Team team = Team.get(number);
-            return team;
+            return Team.get(number);
         }catch (NumberFormatException ex){
             player.sendMessage("[scarlet]" + arg + " is not a valid team, teams are any valid signed integer." +
 "\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
@@ -31,8 +24,20 @@ public class GarbagePlugin extends Plugin{
         }
     }
     private Player HandlePlayerArg(String arg, Player player){
-        Player other = Groups.player.find(p -> Strings.stripColors(p.name.replace(" ", "")).equalsIgnoreCase(arg));
+        Player other = Groups.player.find(p -> Strings.stripColors(p.name.replaceAll("[^\\x21-\\x7E]", "")).equalsIgnoreCase(arg)); //remove all the shit
         if(other == null){
+            if(arg.startsWith("id::")){
+                try{
+                    int number = Integer.parseInt(arg.substring(4));
+                    Player other2 = Groups.player.find(p -> number == p.id);
+                    if(other2 == null){
+                        player.sendMessage("[scarlet]Couldnt find the player with id \"" + number + "\" (Did he leave?)");
+                        return null;
+                    }
+                    return other2;
+                }catch (NumberFormatException ex){
+                };
+            }
             player.sendMessage("[scarlet]Couldnt find the player \"" + arg + "\" (Did he leave?)");
             return null;
         }
@@ -42,35 +47,32 @@ public class GarbagePlugin extends Plugin{
     private void KillAllUnits(){
         Groups.unit.each(u -> {
             if(!u.spawnedByCore){
-                Time.run(Mathf.random(0f, 5f), () -> {Call.unitDespawn(u);});
+                Time.run(Mathf.random(0f, 5f), () -> Call.unitDespawn(u));
             }
         });
     }
     private void KillAllUnits(Team team){
         team.data().units.each(u -> {
             if(!u.spawnedByCore){
-                Time.run(Mathf.random(0f, 5f), () -> {Call.unitDespawn(u);});
+                Time.run(Mathf.random(0f, 5f), () -> Call.unitDespawn(u));
             }
         });
     }
     private void KillAllBuilds(){
         Groups.build.each(b -> {
             if(!(b.block instanceof CoreBlock)){
-                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air);});
+                Time.run(Mathf.random(0f, 5f), () -> b.tile.setNet(Blocks.air));
             }
         });
     }
-    private void KillAllBuilds(Team team){
-        KillAllBuilds(team, false);
-    }
     private void KillAllBuilds(Team team, boolean cores){
-        Seq<Building> builds = new Seq<Building>();
+        Seq<Building> builds = new Seq<>();
         if(team.data().buildings != null){
             team.data().buildings.getObjects(builds);
         }
         builds.each(b -> {
             if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
-                Time.run(Mathf.random(0f, 5f), () -> {b.tile.setNet(Blocks.air);});
+                Time.run(Mathf.random(0f, 5f), () -> b.tile.setNet(Blocks.air));
             }
         });
     }
@@ -156,12 +158,10 @@ public class GarbagePlugin extends Plugin{
             Events.fire(new GameOverEvent(Team.get(0)));
         });
         
-        handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> {
-            player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n\n[][][lightgrey]" +
+        handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n\n[][][lightgrey]" +
 "[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team> [player]\n\n" +
 "[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
 "[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
-"[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nFixed /killall and /wipe not removing all buildings/units. /wipe still can not remove walls\nRemoved the ability to wipe team sharded with cores enabled");
-        });
+"[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nFixed /killall and /wipe not removing all buildings/units. /wipe still can not remove walls\nRemoved the ability to wipe team sharded with cores enabled"));
     }
 }
