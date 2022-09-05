@@ -8,6 +8,7 @@ import mindustry.game.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
+import mindustry.*;
 import mindustry.world.blocks.storage.*;
 import arc.struct.*;
 
@@ -66,11 +67,7 @@ public class GarbagePlugin extends Plugin{
         });
     }
     private void KillAllBuilds(Team team, boolean cores){
-        Seq<Building> builds = new Seq<>();
-        if(team.data().buildings != null){
-            team.data().buildings.getObjects(builds);
-        }
-        builds.each(b -> {
+        team.data().buildings.each(b -> {
             if(b.team == team && (!(b.block instanceof CoreBlock) || cores)){
                 Time.run(Mathf.random(0f, 5f), () -> b.tile.setNet(Blocks.air));
             }
