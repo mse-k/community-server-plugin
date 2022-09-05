@@ -19,7 +19,7 @@ public class GarbagePlugin extends Plugin{
             return Team.get(number);
         }catch (NumberFormatException ex){
             player.sendMessage("[scarlet]" + arg + " is not a valid team, teams are any valid signed integer." +
-"\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[green]3 = Green\n[purple]4 = Purple\n[blue]5 = Blue");
+"\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[purple]3 = Malis\n[green]4 = Green\n[blue]5 = Blue");
             return null;
         }
     }
@@ -141,8 +141,8 @@ public class GarbagePlugin extends Plugin{
                 }
                 Team team = HandleTeamArg(args[0], player);
                 if (team == null) return;
-                if(team == Team.get(1) && cores){
-                    player.sendMessage("[scarlet]Thats just /gameover with extra steps...");
+                if(!player.admin && team == Vars.state.rules.defaultTeam && cores && !Vars.state.rules.pvp){
+                    player.sendMessage("[scarlet]guh..");
                     return;
                 }
                 Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
@@ -154,6 +154,10 @@ public class GarbagePlugin extends Plugin{
         });
         
         handler.<Player>register("gameover", "Instantly triggers a game over. Cores are not killed.", (args, player) -> {
+            if (!player.admin) {
+                player.sendMessage("[scarlet]guh..");
+                return;
+            }
             Call.sendMessage(player.name + "[lightgrey] has caused a game over.");
             Events.fire(new GameOverEvent(Team.get(0)));
         });
@@ -161,7 +165,7 @@ public class GarbagePlugin extends Plugin{
         handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n\n[][][lightgrey]" +
 //"[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team> [player]\n\n" +
 //"[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
-"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
+//"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
 "[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nRemoved the ability to wipe team sharded with cores enabled\n\n" +
 "[stat]v1.1.0[]\nNew features:\nPlayer arguemnts not support ids through \"id::\"\nBug fixes:\n/killall and /wipe no longer locks up server with lots of stuff.\nFixed /killall and /wipe not removing all buildings/units for real this time. /wipe without a team still can not remove walls.\nFixed /gameover message not resetting color.\nMade all player arguments ignore special characters"));
     }
