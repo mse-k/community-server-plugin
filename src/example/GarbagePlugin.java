@@ -101,23 +101,6 @@ public class GarbagePlugin extends Plugin{
             other.sendMessage("[lightgrey]Your team was set to " + args[0] + " by " + player.name + "[lightgrey].");
         });
         
-        handler.<Player>register("setteam", "<team> [player]", "Alt of /team for foos client users until its fixed", (args, player) -> {
-            Player other = player;
-            if(args.length == 2){
-                other = HandlePlayerArg(args[1], player);
-                if (other == null) return;
-            }
-            Team team = HandleTeamArg(args[0], player);
-            if (team == null) return;
-            other.team(team);
-            if(other==player){
-                player.sendMessage("[lightgrey]Set your team to team " + args[0]);
-                return;
-            }
-            player.sendMessage("[lightgrey]Set " + other.name + "[lightgrey]'s team to team " + args[0]);
-            other.sendMessage("[lightgrey]Your team was set to " + args[0] + " by " + player.name + "[lightgrey].");
-        });
-        
         handler.<Player>register("killall", "[team]", "Kills all units, optionally of just one team.", (args, player) -> {
             if(args.length == 1) {
                 Team team = HandleTeamArg(args[0], player);
