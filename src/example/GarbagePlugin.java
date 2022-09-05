@@ -159,12 +159,12 @@ public class GarbagePlugin extends Plugin{
             Events.fire(new GameOverEvent(Team.get(0)));
         });
         
-        handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n\n[][][lightgrey]" +
+        /*handler.<Player>register("changelog", "Checks the changelog of garbo plugin", (args, player) -> player.sendMessage("[purple]Garbo plugin[]\n[stat]Plugin by [#ff6000]mse\n\n[][][lightgrey]" +
 //"[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team> [player]\n\n" +
 //"[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
 //"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
 "[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nRemoved the ability to wipe team sharded with cores enabled\n\n" +
 "[stat]v1.1.0[]\nNew features:\nPlayer arguemnts not support ids through \"id::\"\nBug fixes:\n/killall and /wipe no longer locks up server with lots of stuff.\nFixed /killall and /wipe not removing all buildings/units for real this time. /wipe without a team still can not remove walls.\nFixed /gameover message not resetting color.\nMade all player arguments ignore special characters" +
-"[stat]v1.1.1[]\nUpdated to v138\nSome small changes\n\n"));
+"[stat]v1.1.1[]\nUpdated to v138\nSome small changes\n\n"));*/
     }
 }
