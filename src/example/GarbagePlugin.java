@@ -51,7 +51,7 @@ public class GarbagePlugin extends Plugin{
     }
     private float[] HandlePosArg(String arg, Player player){
         if (arg == "pos") {
-            Unit unit = player.unit()
+            Unit unit = player.unit();
             if (unit == null) {
                 player.sendMessage("[scarlet]Cant use pos if you arent in a unit");
                 return null;
@@ -67,7 +67,7 @@ public class GarbagePlugin extends Plugin{
             try{
                 float x = Float.parseFloat(splt[0]);
                 float y = Float.parseFloat(splt[1]);
-                return new float[]{x, y}
+                return new float[]{x, y};
             }catch (NumberFormatException ex){}
         }
         player.sendMessage("[scarlet]" + arg + " is not a valid position, positions are formatted like this: \n172,66\n92.7,-85" +
