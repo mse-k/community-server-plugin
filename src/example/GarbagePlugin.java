@@ -13,19 +13,24 @@ import mindustry.world.blocks.storage.*;
 import arc.struct.*;
 
 public class GarbagePlugin extends Plugin{
+    private static final Seq<String> teamNames = new Seq<String>(new String[]{{"derelict", "sharded", "crux", "malis", "green", "blue"}});
     //argument handling, need to allow team names for team arg handler later
     private Team HandleTeamArg(String arg, Player player){
         try{
             int number = Integer.parseInt(arg);
             return Team.get(number);
         }catch (NumberFormatException ex){
-            player.sendMessage("[scarlet]" + arg + " is not a valid team, teams are any valid signed integer." +
+            int index = teamNames.indexOf(arg);
+            if (index == -1) {
+                player.sendMessage("[scarlet]" + arg + " is not a valid team, teams are any valid signed integer or the name of a team." +
 "\n[grey]0 = Derelict\n[yellow]1 = Sharded\n[red]2 = Crux\n[purple]3 = Malis\n[green]4 = Green\n[blue]5 = Blue");
-            return null;
+                return null;
+            }
+            return Team.get(index);
         }
     }
     private Player HandlePlayerArg(String arg, Player player){
-        Player other = Groups.player.find(p -> Strings.stripColors(p.name.replaceAll("[^\\x21-\\x7E]", "")).equalsIgnoreCase(arg)); //remove all the shit
+        Player other = Groups.player.find(p -> Strings.stripColors(Normalizer.decompose(p.name, true, 0).replaceAll("[^\\x21-\\x7E]", "")).equalsIgnoreCase(Normalizer.decompose(arg, true, 0).replaceAll("[^\\x21-\\x7E]", ""))); //remove all the shit
         if(other == null){
             if(arg.startsWith("id::")){
                 try{
@@ -94,18 +99,18 @@ public class GarbagePlugin extends Plugin{
             if (team == null) return;
             other.team(team);
             if(other==player){
-                player.sendMessage("[lightgrey]Set your team to team " + args[0]);
+                player.sendMessage("[lightgrey]Set your team to " + team.toString().replace("#", " "));
                 return;
             }
-            player.sendMessage("[lightgrey]Set " + other.name + "[lightgrey]'s team to team " + args[0]);
-            other.sendMessage("[lightgrey]Your team was set to " + args[0] + " by " + player.name + "[lightgrey].");
+            player.sendMessage("[lightgrey]Set " + other.name + "[lightgrey]'s team to " + team.toString().replace("#", " "));
+            other.sendMessage("[lightgrey]Your team was set to " + team.toString().replace("#", " ") + " by " + player.name + "[lightgrey].");
         });
         
         handler.<Player>register("killall", "[team]", "Kills all units, optionally of just one team.", (args, player) -> {
             if(args.length == 1) {
                 Team team = HandleTeamArg(args[0], player);
                 if (team == null) return;
-                Call.sendMessage("[lightgrey]All units on team " + args[0] + " have been killed by " + player.name + "[lightgrey].");
+                Call.sendMessage("[lightgrey]All units on team " + team.toString().replace("team#", "") + " have been killed by " + player.name + "[lightgrey].");
                 KillAllUnits(team);
                 return;
             }
@@ -125,7 +130,7 @@ public class GarbagePlugin extends Plugin{
                     player.sendMessage("[scarlet]guh..");
                     return;
                 }
-                Call.sendMessage("[lightgrey]All builds on team " + args[0] + " have been wiped by " + player.name + "[lightgrey].");
+                Call.sendMessage("[lightgrey]All builds on team " + team.toString().replace("team#", "") + " have been wiped by " + player.name + "[lightgrey].");
                 KillAllBuilds(team, cores);
                 return;
             }
@@ -148,6 +153,7 @@ public class GarbagePlugin extends Plugin{
 //"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
 "[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nRemoved the ability to wipe team sharded with cores enabled\n\n" +
 "[stat]v1.1.0[]\nNew features:\nPlayer arguemnts not support ids through \"id::\"\nBug fixes:\n/killall and /wipe no longer locks up server with lots of stuff.\nFixed /killall and /wipe not removing all buildings/units for real this time. /wipe without a team still can not remove walls.\nFixed /gameover message not resetting color.\nMade all player arguments ignore special characters" +
-"[stat]v1.1.1[]\nUpdated to v138\nSome small changes\n\n"));*/
+"[stat]v1.1.1[]\nUpdated to v138\nSome small changes\n\n" +
+"[stat]v1.1.2[]\nUpdated to v140\nSupport for team names in commands that require a team\n\n"));*/
     }
 }
