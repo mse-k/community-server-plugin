@@ -49,6 +49,30 @@ public class GarbagePlugin extends Plugin{
         }
         return other;
     }
+    private float[] HandlePosArg(String arg, Player player){
+        if (arg == "pos") {
+            Unit unit = player.unit()
+            if (unit == null) {
+                player.sendMessage("[scarlet]Cant use pos if you arent in a unit");
+                return null;
+            }
+            return new float[]{unit.x, unit.y};
+        }
+        if (arg == "cur") {
+            player.sendMessage("[scarlet]Not implemented :hehehehehaw:");
+            return null;
+        }
+        String[] split = arg.split(",", 0);
+        if (split.length == 2) {
+            try{
+                float x = Float.parseFloat(splt[0]);
+                float y = Float.parseFloat(splt[1]);
+                return new float[]{x, y}
+            }catch (NumberFormatException ex){}
+        }
+        player.sendMessage("[scarlet]" + arg + " is not a valid position, positions are formatted like this: \n172,66\n92.7,-85" +
+"\nyou can also use \"pos\" to use the position of your unit or \"cur\" for your cursor position (not implemented).");
+    }
     //stuff that does stuff
     private void KillAllUnits(){
         Groups.unit.each(u -> {
@@ -143,7 +167,7 @@ public class GarbagePlugin extends Plugin{
                 player.sendMessage("[scarlet]guh..");
                 return;
             }
-            Call.sendMessage(player.name + "[lightgrey] has caused a game over.");
+            Call.sendMessage("[lightgrey]" + player.name + "[lightgrey] has caused a game over.");
             Events.fire(new GameOverEvent(Team.get(0)));
         });
         
@@ -151,9 +175,9 @@ public class GarbagePlugin extends Plugin{
 //"[stat]v1.0.0:[]\nPlugin created\nAdded commands:\n/msg <user> <text...>\n/team <team> [player]\n\n" +
 //"[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
 //"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
-"[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nRemoved the ability to wipe team sharded with cores enabled\n\n" +
+//"[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nRemoved the ability to wipe team sharded with cores enabled\n\n" +
 "[stat]v1.1.0[]\nNew features:\nPlayer arguemnts not support ids through \"id::\"\nBug fixes:\n/killall and /wipe no longer locks up server with lots of stuff.\nFixed /killall and /wipe not removing all buildings/units for real this time. /wipe without a team still can not remove walls.\nFixed /gameover message not resetting color.\nMade all player arguments ignore special characters" +
 "[stat]v1.1.1[]\nUpdated to v138\nSome small changes\n\n" +
-"[stat]v1.1.2[]\nUpdated to v140\nSupport for team names in commands that require a team\n\n"));*/
+"[stat]v1.1.2[]\nUpdated to v140\nSupport for team names in commands that require a team\nChanged name character filtering, should be better now\nFixed name color in /gameover\n\n"));*/
     }
 }
