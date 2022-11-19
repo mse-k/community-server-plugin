@@ -11,6 +11,7 @@ import mindustry.mod.*;
 import mindustry.*;
 import mindustry.world.blocks.storage.*;
 import arc.struct.*;
+import java.text.*;
 
 public class GarbagePlugin extends Plugin{
     private static final Seq<String> teamNames = new Seq<String>(new String[]{{"derelict", "sharded", "crux", "malis", "green", "blue"}});
@@ -65,8 +66,8 @@ public class GarbagePlugin extends Plugin{
         String[] split = arg.split(",", 0);
         if (split.length == 2) {
             try{
-                float x = Float.parseFloat(splt[0]);
-                float y = Float.parseFloat(splt[1]);
+                float x = Float.parseFloat(split[0]);
+                float y = Float.parseFloat(split[1]);
                 return new float[]{x, y};
             }catch (NumberFormatException ex){}
         }
