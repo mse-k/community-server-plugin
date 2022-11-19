@@ -14,7 +14,7 @@ import arc.struct.*;
 import java.text.*;
 
 public class GarbagePlugin extends Plugin{
-    private static final Seq<String> teamNames = new Seq<String>(new String[]{{"derelict", "sharded", "crux", "malis", "green", "blue"}});
+    private static final Seq<String> teamNames = new Seq<String>(new String[]{"derelict", "sharded", "crux", "malis", "green", "blue"});
     //argument handling, need to allow team names for team arg handler later
     private Team HandleTeamArg(String arg, Player player){
         try{
@@ -31,7 +31,7 @@ public class GarbagePlugin extends Plugin{
         }
     }
     private Player HandlePlayerArg(String arg, Player player){
-        Player other = Groups.player.find(p -> Strings.stripColors(Normalizer.decompose(p.name, true, 0).replaceAll("[^\\x21-\\x7E]", "")).equalsIgnoreCase(Normalizer.decompose(arg, true, 0).replaceAll("[^\\x21-\\x7E]", ""))); //remove all the shit
+        Player other = Groups.player.find(p -> Strings.stripColors(Normalizer.normalize(p.name, Normalizer.Form.NFKD).replaceAll("[^\\x21-\\x7E]", "")).equalsIgnoreCase(Normalizer.normalize(arg, Normalizer.Form.NFKD).replaceAll("[^\\x21-\\x7E]", ""))); //remove all the shit
         if(other == null){
             if(arg.startsWith("id::")){
                 try{
