@@ -176,7 +176,7 @@ public class GarbagePlugin extends Plugin{
                 team = HandleTeamArg(args[1], player);
                 if (team == null) return;
                 if(args.length > 2) {
-                    switch(arg[2]) {
+                    switch(args[2]) {
                         case "1":
                             type = Blocks.coreShard;
                             break;
@@ -196,7 +196,7 @@ public class GarbagePlugin extends Plugin{
                             type = Blocks.coreAcropolis;
                             break;
                         default:
-                            player.sendMessage("[scarlet]" + arg[2] + " is not a valid core tier; valid tiers are numbers from 1 to 6" +
+                            player.sendMessage("[scarlet]" + args[2] + " is not a valid core tier; valid tiers are numbers from 1 to 6" +
 "\n[lightgrey]1 = Core: Shard\n2 = Core: Foundation\n3 = Core: Nucleus\n4 = Core: Bastion\n5 = Core: Citadel\n6 = Core: Acropolis");
                             return;
                     }
