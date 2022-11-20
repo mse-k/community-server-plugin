@@ -10,6 +10,7 @@ import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.*;
 import mindustry.world.blocks.storage.*;
+import mindustry.world.*;
 import arc.struct.*;
 import java.text.*;
 
@@ -73,6 +74,7 @@ public class GarbagePlugin extends Plugin{
         }
         player.sendMessage("[scarlet]" + arg + " is not a valid position, positions are formatted like this: \n172,66\n92.7,-85" +
 "\nyou can also use \"pos\" to use the position of your unit or \"cur\" for your cursor position (not implemented).");
+        return null;
     }
     //stuff that does stuff
     private void KillAllUnits(){
@@ -163,6 +165,52 @@ public class GarbagePlugin extends Plugin{
             KillAllBuilds();
         });
         
+        handler.<Player>register("core", "<pos> [team] [tier]", "Places a core on your or the specified team. Destroys anything under the spot.", (args, player) -> {
+            Team team = player.team();
+            float[] pos = HandlePosArg(args[0], player);
+            if (pos == null) return;
+            int x = (int) pos[0];
+            int y = (int) pos[1];
+            Block type = Blocks.coreShard;
+            if(args.length > 1) {
+                team = HandleTeamArg(args[1], player);
+                if (team == null) return;
+                if(args.length > 2) {
+                    switch(arg[2]) {
+                        case "1":
+                            type = Blocks.coreShard;
+                            break;
+                        case "2":
+                            type = Blocks.coreFoundation;
+                            break;
+                        case "3":
+                            type = Blocks.coreNucleus;
+                            break;
+                        case "4":
+                            type = Blocks.coreBastion;
+                            break;
+                        case "5":
+                            type = Blocks.coreCitadel;
+                            break;
+                        case "6":
+                            type = Blocks.coreAcropolis;
+                            break;
+                        default:
+                            player.sendMessage("[scarlet]" + arg[2] + " is not a valid core tier; valid tiers are numbers from 1 to 6" +
+"\n[lightgrey]1 = Core: Shard\n2 = Core: Foundation\n3 = Core: Nucleus\n4 = Core: Bastion\n5 = Core: Citadel\n6 = Core: Acropolis");
+                            return;
+                    }
+                }
+            }
+            Tile tile = Vars.world.tile(x, y);
+            if (tile == null) {
+                player.sendMessage("[scarlet]Position is outside of the map bounds.");
+                return;
+            }
+            tile.setNet(type, team, 0);
+            player.sendMessage("[lightgrey]Placed " + type.name.replace("-", " ") + " at " + x + ", " + y + ".");
+        });
+        
         handler.<Player>register("gameover", "Instantly triggers a game over. Cores are not killed.", (args, player) -> {
             if (!player.admin) {
                 player.sendMessage("[scarlet]guh..");
@@ -177,8 +225,8 @@ public class GarbagePlugin extends Plugin{
 //"[stat]v1.0.1[]\nAdded commands:\n/killall [team]\n\n" +
 //"[stat]v1.0.2[]\nAdded commands:\n/wipe [team] [cores]\n/changelog\n\n" +
 //"[stat]v1.0.3[]\nAdded commands:\n/setteam <team> [player]\n/gameover\nBug fixes:\nRemoved the ability to wipe team sharded with cores enabled\n\n" +
-"[stat]v1.1.0[]\nNew features:\nPlayer arguemnts not support ids through \"id::\"\nBug fixes:\n/killall and /wipe no longer locks up server with lots of stuff.\nFixed /killall and /wipe not removing all buildings/units for real this time. /wipe without a team still can not remove walls.\nFixed /gameover message not resetting color.\nMade all player arguments ignore special characters" +
+"[stat]v1.1.0[]\nNew features:\nPlayer arguments now support ids through \"id::\"\nBug fixes:\n/killall and /wipe no longer locks up server with lots of stuff.\nFixed /killall and /wipe not removing all buildings/units for real this time. /wipe without a team still can not remove walls.\nFixed /gameover message not resetting color.\nMade all player arguments ignore special characters" +
 "[stat]v1.1.1[]\nUpdated to v138\nSome small changes\n\n" +
-"[stat]v1.1.2[]\nUpdated to v140\nSupport for team names in commands that require a team\nChanged name character filtering, should be better now\nFixed name color in /gameover\n\n"));*/
+"[stat]v1.1.2[]\nUpdated to v140\nAdded commands:\n/core <pos> [team] [tier]\nNew features:\nSupport for team names in commands that require a team\nChanged name character filtering, should be better now\nBug fixes:\nFixed name color in /gameover\n\n"));*/
     }
 }
