@@ -52,7 +52,7 @@ public class GarbagePlugin extends Plugin{
         return other;
     }
     private float[] HandlePosArg(String arg, Player player){
-        if (arg == "pos") {
+        if (arg.equalsIgnoreCase("pos")) {
             Unit unit = player.unit();
             if (unit == null) {
                 player.sendMessage("[scarlet]Cant use pos if you arent in a unit");
@@ -60,16 +60,7 @@ public class GarbagePlugin extends Plugin{
             }
             return new float[]{unit.x, unit.y};
         }
-        if (arg.length() == 3) {
-            String[] split2 = arg.split("", 0);
-            String[] split3 = "pos".split("", 0);
-            for (int i = 0; i < 3; i++) {
-                if (split2[i] != split3[i]) {
-                    player.sendMessage("FAILL GRAAA: " + i + " AAA \"" + split2[i] + "\", \"" + split3[i] + "\"");
-                }
-            }
-        }
-        if (arg == "cur") {
+        if (arg.equalsIgnoreCase("cur")) {
             player.sendMessage("[scarlet]Not implemented :hehehehehaw:");
             return null;
         }
@@ -82,7 +73,7 @@ public class GarbagePlugin extends Plugin{
             }catch (NumberFormatException ex){}
         }
         player.sendMessage("[scarlet]" + arg + " is not a valid position, positions are formatted like this: \n172,66\n92.7,-85" +
-"\nyou can also use \"pos\" to use the position of your unit or \"cur\" for your cursor position (not implemented)." + arg.length());
+"\nyou can also use \"pos\" to use the position of your unit or \"cur\" for your cursor position (not implemented).");
         return null;
     }
     //stuff that does stuff
