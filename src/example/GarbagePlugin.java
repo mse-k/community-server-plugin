@@ -73,7 +73,7 @@ public class GarbagePlugin extends Plugin{
             }catch (NumberFormatException ex){}
         }
         player.sendMessage("[scarlet]" + arg + " is not a valid position, positions are formatted like this: \n172,66\n92.7,-85" +
-"\nyou can also use \"pos\" to use the position of your unit or \"cur\" for your cursor position (not implemented).");
+"\nyou can also use \"pos\" to use the position of your unit or \"cur\" for your cursor position (not implemented)." + arg.length());
         return null;
     }
     //stuff that does stuff
