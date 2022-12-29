@@ -60,6 +60,15 @@ public class GarbagePlugin extends Plugin{
             }
             return new float[]{unit.x, unit.y};
         }
+        if (arg.length() == 3) {
+            String[] split2 = arg.split("", 0);
+            String[] split3 = "pos".split("", 0);
+            for (int i = 0; i < 3; i++) {
+                if (split2[i] != split3[i]) {
+                    player.sendMessage("FAILL GRAAA: " + i + " AAA \"" + split2[i] + "\", \"" + split3[i] + "\"");
+                }
+            }
+        }
         if (arg == "cur") {
             player.sendMessage("[scarlet]Not implemented :hehehehehaw:");
             return null;
