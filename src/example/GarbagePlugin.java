@@ -58,7 +58,7 @@ public class GarbagePlugin extends Plugin{
                 player.sendMessage("[scarlet]Cant use pos if you arent in a unit");
                 return null;
             }
-            return new float[]{unit.x, unit.y};
+            return new float[]{unit.x / Vars.tilesize, unit.y / Vars.tilesize};
         }
         if (arg.equalsIgnoreCase("cur")) {
             player.sendMessage("[scarlet]Not implemented :hehehehehaw:");
